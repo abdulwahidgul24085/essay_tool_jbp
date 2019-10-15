@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Eassy Editor | Technique by Jordon Peterson</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="https://abdulwahidgul.me/wp-content/uploads/2019/10/cropped-coffee-cup-32x32.png"
+    sizes="32x32" />
+  <link rel="icon" href="https://abdulwahidgul.me/wp-content/uploads/2019/10/cropped-coffee-cup-192x192.png"
+    sizes="192x192" />
+  <link rel="apple-touch-icon-precomposed"
+    href="https://abdulwahidgul.me/wp-content/uploads/2019/10/cropped-coffee-cup-180x180.png" />
+  <meta name="msapplication-TileImage"
+    content="https://abdulwahidgul.me/wp-content/uploads/2019/10/cropped-coffee-cup-270x270.png" />
+</head>
+<style>
+/* textarea{ 
+  width: 200px; 
+  min-width:200px; 
+  max-width:200px; 
+
+  height:200px; 
+  min-height:200px;  
+  max-height:200px;
+} */
+textarea { resize:none; }
+textarea { resize:vertical; }
+
+#grammarly_link{
+  color:#5BB674;
+}
+
+#getparagraph{
+  /* width: 111%; */
+  margin: 10px 0;
+}
+.my-sidebar {
+    -ms-flex: 0 0 527px;
+    flex: 0 0 527px;
+} 
+@media (max-width: 690px) {
+  .my-sidebar {
+    display: none; 
+  } 
+}
+
+textarea{
+  min-width: 100%; max-width: 100%;
+}
+
+div.alert{
+  margin: 10px 0;
+}
+</style>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Eassy Editor</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="https://abdulwahidgul.me">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://docs.google.com/viewer?url=http://jordanbpeterson.com/wp-content/uploads/2018/02/Essay_Writing_Guide.docx">Jordon Peterson Technique Doc</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-secondary text-center" role="alert">
+          <p>For Best result install <a href="https://app.grammarly.com/" id="grammarly_link">grammarly.</a> They have the best
+            cross-platform
+            grammatical error correction tool</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button id='getparagraph' class='btn btn-secondary btn-block'> Process Sentences</button>
+        <textarea name="paragraph" id="paragraph" rows="15"></textarea>
+      </div>
+      <div class="col my-sidebar">
+        <p>Total Paragraphs: <span id="total_count">0</span></p>
+        <p>Total Words: <span id='result'>0</span></p>
+        <ul id="paragraph_breakdown">
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col"><textarea name="full_content" id="full_content" rows="50"></textarea></div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.slim.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+  function wordCount(val) {
+      var wom = val.match(/\S+/g);
+      return {
+        charactersNoSpaces: val.replace(/\s+/g, '').length,
+        characters: val.length,
+        words: wom ? wom.length : 0,
+        lines: val.split(/\r*\n/).length
+      };
+    }
+
+    var textarea = document.getElementById('paragraph');
+    var result = document.getElementById('result');
+
+    textarea.addEventListener('input', function () {
+      var wc = wordCount(this.value);
+      result.innerHTML = wc.words;
+      regex = /((?:[^.][]?)+)/g;
+      paragraph = $('#paragraph').val();
+      count = (paragraph.match(regex) || []).length;
+      total_paragprahs = paragraph.match(regex);
+      $('#total_count').text(count);
+      if (wc.words > 100){
+        alert('Paragraph Word Limit Crossed');
+      }
+    });
+    
+    </script>
+  <script>
+  $(document).ready(function () {
+    $('#getparagraph').on('click', function(){
+      // $('#total_count').text(0);
+      $('#paragraph_breakdown').children().remove();
+      regex = /((?:[^.][]?)+)/g;
+      paragraph = $('#paragraph').val();
+      count = (paragraph.match(regex) || []).length;
+      total_paragprahs = paragraph.match(regex);
+      if(total_paragprahs != null ){
+        (total_paragprahs).forEach(element => {
+          $('#paragraph_breakdown').append('<li class="border border-info" style="margin: 5px 0; padding:0 5px;">' + element + '</li>')
+        });
+        // $('#total_count').text(count);
+      }
+    })
+  });
+  </script>
+</body>
+
+</html>
